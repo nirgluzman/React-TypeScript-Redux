@@ -19,3 +19,6 @@ Redux for state management
 ---------------------------------------
 Open-source JavaScript library for managing and centralizing application state.
 https://redux.js.org/
+https://redux.js.org/introduction/getting-started
+
+install: npm install @reduxjs/toolkit react-redux
