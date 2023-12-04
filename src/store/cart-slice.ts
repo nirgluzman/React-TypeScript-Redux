@@ -1,6 +1,6 @@
 // A "slice" is a collection of Redux reducer logic and actions for a single feature in your app.
 
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
 type CartItem = {
 	id: string;
@@ -21,7 +21,24 @@ export const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		addToCart() {},
+		// adding items to the cart.
+		addToCart(
+			state,
+			action: PayloadAction<{id: string; title: string; price: number}> // PayloadAction has the type defintion of type of data we expect to be attached to this action.
+		) {
+			// checking if a similar item is already in the shopping cart.
+			// findIndex() method returns the index of the first element in an array that satisfies the provided testing function.
+			// if no elements satisfy the testing function, -1 is returned.
+			const itemIndex = state.items.findIndex((item) => item.id === action.payload.id);
+
+			if (itemIndex >= 0) {
+				// similar item is already in the cart, so we just need to update the quantity.
+				state.items[itemIndex].quantity++;
+			} else {
+				// similar item is not on the cart, so we need to add this item with quantity=1.
+				state.items.push({...action.payload, quantity: 1});
+			}
+		},
 		removeFromCart() {},
 	},
 });
